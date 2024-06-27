@@ -22,7 +22,14 @@ public class PaymentService {
      * @return Payment
      */
     public Payment prepare(final Long orderId, final String currency, final BigDecimal foreignCurrencyAmount) throws IOException {
-        // 환율 가져오기
+        final BigDecimal exRate = getExRate(currency);
+        final BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
+        final LocalDateTime validUtil = LocalDateTime.now().plusMinutes(30);
+
+        return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUtil);
+    }
+
+    private BigDecimal getExRate(final String currency) throws IOException {
         final URL url = new URL("https://open.er-api.com/v6/latest/" + currency);
         final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         final BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -32,14 +39,7 @@ public class PaymentService {
         final ObjectMapper mapper = new ObjectMapper();
         final ExRateData data = mapper.readValue(response, ExRateData.class);
         final BigDecimal exRate = data.rates().get("KRW");
-
-        // 원화 환산 금액 계산
-        final BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
-
-        // 원화 환산 금액 유효 시간 계산
-        final LocalDateTime validUtil = LocalDateTime.now().plusMinutes(30);
-
-        return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUtil);
+        return exRate;
     }
 
     /**
