@@ -4,7 +4,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-abstract public class PaymentService {
+public class PaymentService {
+
+    private final WebApiExRateProvider exRateProvider;
+
+    public PaymentService() {
+        this.exRateProvider = new WebApiExRateProvider();
+    }
 
     /**
      * 해외직구를 위한 원화 결제 준비 기능
@@ -15,12 +21,10 @@ abstract public class PaymentService {
      * @return Payment
      */
     public Payment prepare(final Long orderId, final String currency, final BigDecimal foreignCurrencyAmount) throws IOException {
-        final BigDecimal exRate = getExRate(currency);
+        final BigDecimal exRate = exRateProvider.getWebExRate(currency);
         final BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
         final LocalDateTime validUtil = LocalDateTime.now().plusMinutes(30);
 
         return new Payment(orderId, currency, foreignCurrencyAmount, exRate, convertedAmount, validUtil);
     }
-
-    abstract BigDecimal getExRate(final String currency) throws IOException;
 }
