@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 
 public class Client {
     public static void main(String[] args) throws IOException {
-        final PaymentService paymentService = new PaymentService(new WebApiExRateProvider());
+        final ObjectFactory objectFactory = new ObjectFactory();
+        final PaymentService paymentService = objectFactory.paymentService();
+
         final Payment payment = paymentService.prepare(100L, "USD", BigDecimal.valueOf(50.7));
         System.out.println(payment);
     }
