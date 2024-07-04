@@ -1,6 +1,5 @@
 package tobyspring.hellospring6.payment;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 
@@ -22,7 +21,7 @@ public class PaymentService {
      * @param foreignCurrencyAmount 외국 통화 기준 결제 금액
      * @return Payment
      */
-    public Payment prepare(final Long orderId, final String currency, final BigDecimal foreignCurrencyAmount) throws IOException {
+    public Payment prepare(final Long orderId, final String currency, final BigDecimal foreignCurrencyAmount) {
         return Payment.createPrepared(orderId, currency, foreignCurrencyAmount, exRateProvider, clock);
     }
 }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
@@ -26,7 +25,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("원화환산금액 검증")
-    void convertedAmount() throws IOException {
+    void convertedAmount() {
         testAmount(valueOf(500), valueOf(5_000));
         testAmount(valueOf(1_000), valueOf(10_000));
         testAmount(valueOf(3_000), valueOf(30_000));
@@ -34,7 +33,7 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("원화환산금액 유효시간 검증")
-    void validUntil() throws IOException {
+    void validUntil() {
         final PaymentService paymentService = new PaymentService(new ExRateProviderStub(valueOf(1_000)), this.clock);
 
         final Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
@@ -45,7 +44,7 @@ class PaymentServiceTest {
         Assertions.assertThat(payment.getValidUntil()).isEqualTo(expectedValidUntil);
     }
 
-    private void testAmount(final BigDecimal exRate, final BigDecimal convertedAmount) throws IOException {
+    private void testAmount(final BigDecimal exRate, final BigDecimal convertedAmount) {
         final PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), this.clock);
         final Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 

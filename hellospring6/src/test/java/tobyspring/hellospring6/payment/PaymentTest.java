@@ -2,7 +2,6 @@ package tobyspring.hellospring6.payment;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
@@ -12,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PaymentTest {
     @Test
-    void createPrepared() throws IOException {
+    void createPrepared() {
         final Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
 
         final Payment payment = Payment.createPrepared(
@@ -24,7 +23,7 @@ class PaymentTest {
     }
 
     @Test
-    void isValid() throws IOException {
+    void isValid() {
         final Clock clock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
 
         final Payment payment = Payment.createPrepared(
