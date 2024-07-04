@@ -1,7 +1,6 @@
 package tobyspring.hellospring6.exrate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Component;
 import tobyspring.hellospring6.payment.ExRateProvider;
 
 import java.io.BufferedReader;
@@ -12,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-@Component
 public class WebApiExRateProvider implements ExRateProvider {
     @Override
     public BigDecimal getExRate(final String currency) throws IOException {
