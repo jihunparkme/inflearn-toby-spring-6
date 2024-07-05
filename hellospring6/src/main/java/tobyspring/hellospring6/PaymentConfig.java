@@ -2,11 +2,10 @@ package tobyspring.hellospring6;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tobyspring.hellospring6.api.ApiTemplate;
-import tobyspring.hellospring6.api.ErApiExtractor;
-import tobyspring.hellospring6.api.SimpleApiExecutor;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 import tobyspring.hellospring6.exrate.CachedExRateProvider;
-import tobyspring.hellospring6.exrate.WebApiExRateProvider;
+import tobyspring.hellospring6.exrate.RestTemplateExRateProvider;
 import tobyspring.hellospring6.payment.ExRateProvider;
 import tobyspring.hellospring6.payment.PaymentService;
 
@@ -26,13 +25,16 @@ public class PaymentConfig {
     }
 
     @Bean
-    public ApiTemplate apiTemplate() {
-        return new ApiTemplate(new SimpleApiExecutor(), new ErApiExtractor());
+    public RestTemplate restTemplate() {
+        /**
+         * SimpleClientHttpRequestFactory is default factory. (ref. HttpAccessor)
+         */
+        return new RestTemplate(new JdkClientHttpRequestFactory());
     }
 
     @Bean
     public ExRateProvider exRateProvider() {
-        return new WebApiExRateProvider(apiTemplate());
+        return new RestTemplateExRateProvider(restTemplate());
     }
 
     @Bean
