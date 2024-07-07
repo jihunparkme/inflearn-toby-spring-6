@@ -1,30 +1,17 @@
 package tobyspring.hellospring6.data;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceContext;
 import tobyspring.hellospring6.order.Order;
 
 public class OrderRepository {
-    private final EntityManagerFactory emf;
-
-    public OrderRepository(final EntityManagerFactory emf) {
-        this.emf = emf;
-    }
+    /**
+     * @PersistenceContext 표준 애노테이션으로 JPA가 적절한 엔티티 매니저를 주입
+     */
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public void save(Order order) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-
-        try {
-            em.persist(order);
-            transaction.commit();
-        } catch (RuntimeException e) {
-            if (transaction.isActive()) transaction.rollback();
-            throw e;
-        } finally {
-            if (em.isOpen()) em.clear();
-        }
+        entityManager.persist(order);
     }
 }
