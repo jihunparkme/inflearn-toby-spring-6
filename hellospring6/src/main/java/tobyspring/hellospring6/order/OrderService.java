@@ -3,7 +3,6 @@ package tobyspring.hellospring6.order;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
-import tobyspring.hellospring6.data.OrderRepository;
 
 import java.math.BigDecimal;
 
