@@ -3,7 +3,7 @@ package tobyspring.hellospring6;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import tobyspring.hellospring6.data.JpaOrderRepository;
 import tobyspring.hellospring6.order.OrderRepository;
 import tobyspring.hellospring6.order.OrderService;
@@ -17,7 +17,7 @@ public class OrderConfig {
     }
 
     @Bean
-    public OrderService orderService(final JpaTransactionManager transactionManager) {
+    public OrderService orderService(final PlatformTransactionManager transactionManager) {
         return new OrderService(orderRepository(), transactionManager);
     }
 }
