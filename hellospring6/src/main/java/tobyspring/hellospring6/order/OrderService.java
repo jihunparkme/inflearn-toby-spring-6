@@ -1,7 +1,7 @@
 package tobyspring.hellospring6.order;
 
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final PlatformTransactionManager transactionManager;
+    private final JpaTransactionManager transactionManager;
 
-    public OrderService(final OrderRepository orderRepository, final PlatformTransactionManager transactionManager) {
+    public OrderService(final OrderRepository orderRepository, final JpaTransactionManager transactionManager) {
         this.orderRepository = orderRepository;
         this.transactionManager = transactionManager;
     }
